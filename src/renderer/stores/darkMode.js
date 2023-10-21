@@ -4,7 +4,7 @@ import { ref } from 'vue'
 export const useDarkModeStore = defineStore('darkMode', () => {
   const isEnabled = ref(false)
 
-  function set(payload = null) {
+  function set (payload = null) {
     isEnabled.value = payload !== null ? payload : !isEnabled.value
 
     if (typeof document !== 'undefined') {
@@ -17,9 +17,9 @@ export const useDarkModeStore = defineStore('darkMode', () => {
     }
 
     // You can persist dark mode setting
-    // if (typeof localStorage !== 'undefined') {
-    //   localStorage.setItem('darkMode', this.darkMode ? '1' : '0')
-    // }
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('darkMode', this.darkMode ? '1' : '0')
+    }
   }
 
   return {
