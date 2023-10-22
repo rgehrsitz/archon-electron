@@ -11,10 +11,16 @@ import {
   mdiGit,
   mdiFileTreeOutline,
   mdiVectorDifference,
-  mdiCogOutline
+  mdiCogOutline,
+  mdiHomeOutline
 } from '@mdi/js'
 
 export default [
+  {
+    to: '/welcome',
+    icon: mdiHomeOutline,
+    label: 'Welcome'
+  },
   {
     to: '/dashboard',
     icon: mdiMonitor,

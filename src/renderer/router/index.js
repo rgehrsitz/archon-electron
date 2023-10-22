@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Style from '@/views/StyleView.vue'
-import Home from '@/views/HomeView.vue'
+import Dashboard from '@/views/HomeView.vue'
+import Welcome from '@/views/WelcomeView.vue'
 
 const routes = [
   {
@@ -15,11 +16,21 @@ const routes = [
     // Document title tag
     // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
     meta: {
+      title: 'Welcome'
+    },
+    path: '/welcome',
+    name: 'welcome',
+    component: Welcome
+  },
+  {
+    // Document title tag
+    // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
+    meta: {
       title: 'Dashboard'
     },
     path: '/dashboard',
     name: 'dashboard',
-    component: Home
+    component: Dashboard
   },
   {
     meta: {

@@ -30,7 +30,7 @@ const handleStyleChange = (slug) => {
     }
   })
 
-  router.push('/dashboard')
+  router.push('/welcome')
 }
 </script>
 
