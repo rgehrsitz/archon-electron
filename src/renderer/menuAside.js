@@ -21,22 +21,22 @@ export default [
     label: 'Dashboard'
   },
   {
-    to: '/tables',
+    to: '/hierarchy',
     label: 'Hierarchy',
     icon: mdiFileTreeOutline
   },
   {
-    to: '/forms',
+    to: '/snapshots',
     label: 'Snapshots',
     icon: mdiGit
   },
   {
-    to: '/ui',
+    to: '/diffview',
     label: 'Diff View',
     icon: mdiVectorDifference
   },
   {
-    to: '/responsive',
+    to: '/settings',
     label: 'Settings',
     icon: mdiCogOutline
   },

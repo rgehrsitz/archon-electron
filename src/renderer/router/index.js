@@ -23,43 +23,35 @@ const routes = [
   },
   {
     meta: {
-      title: 'Tables'
+      title: 'Hierarchy'
     },
-    path: '/tables',
-    name: 'tables',
-    component: () => import('@/views/TablesView.vue')
+    path: '/hierarchy',
+    name: 'hierarchy',
+    component: () => import('@/views/HierarchyView.vue')
   },
   {
     meta: {
-      title: 'Forms'
+      title: 'Snapshots'
     },
-    path: '/forms',
-    name: 'forms',
-    component: () => import('@/views/FormsView.vue')
+    path: '/snapshots',
+    name: 'snapshots',
+    component: () => import('@/views/SnapshotsView.vue')
   },
   {
     meta: {
-      title: 'Profile'
+      title: 'Diff View'
     },
-    path: '/profile',
-    name: 'profile',
-    component: () => import('@/views/ProfileView.vue')
+    path: '/diffview',
+    name: 'diffview',
+    component: () => import('@/views/DiffView.vue')
   },
   {
     meta: {
-      title: 'Ui'
+      title: 'Settings'
     },
-    path: '/ui',
-    name: 'ui',
-    component: () => import('@/views/UiView.vue')
-  },
-  {
-    meta: {
-      title: 'Responsive layout'
-    },
-    path: '/responsive',
-    name: 'responsive',
-    component: () => import('@/views/ResponsiveView.vue')
+    path: '/settings',
+    name: 'settings',
+    component: () => import('@/views/SettingsView.vue')
   },
   {
     meta: {
