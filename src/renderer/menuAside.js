@@ -12,13 +12,13 @@ import {
   mdiFileTreeOutline,
   mdiVectorDifference,
   mdiCogOutline,
-  mdiHomeOutline
+  mdiHumanGreeting
 } from '@mdi/js'
 
 export default [
   {
     to: '/welcome',
-    icon: mdiHomeOutline,
+    icon: '<img src="../../public/archon_logo.svg" alt="Archon Logo">',
     label: 'Welcome'
   },
   {
