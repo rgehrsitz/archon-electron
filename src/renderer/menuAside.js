@@ -4,13 +4,14 @@ import {
   mdiGithub,
   mdiLock,
   mdiAlertCircle,
-  mdiSquareEditOutline,
-  mdiTable,
   mdiViewList,
-  mdiTelevisionGuide,
   mdiResponsive,
   mdiPalette,
-  mdiReact
+  mdiReact,
+  mdiGit,
+  mdiFileTreeOutline,
+  mdiVectorDifference,
+  mdiCogOutline
 } from '@mdi/js'
 
 export default [
@@ -21,66 +22,31 @@ export default [
   },
   {
     to: '/tables',
-    label: 'Tables',
-    icon: mdiTable
+    label: 'Hierarchy',
+    icon: mdiFileTreeOutline
   },
   {
     to: '/forms',
-    label: 'Forms',
-    icon: mdiSquareEditOutline
+    label: 'Snapshots',
+    icon: mdiGit
   },
   {
     to: '/ui',
-    label: 'UI',
-    icon: mdiTelevisionGuide
+    label: 'Diff View',
+    icon: mdiVectorDifference
   },
   {
     to: '/responsive',
-    label: 'Responsive',
-    icon: mdiResponsive
+    label: 'Settings',
+    icon: mdiCogOutline
   },
+
   {
-    to: '/',
-    label: 'Styles',
-    icon: mdiPalette
-  },
-  {
-    to: '/profile',
-    label: 'Profile',
-    icon: mdiAccountCircle
-  },
-  {
-    to: '/login',
-    label: 'Login',
-    icon: mdiLock
-  },
-  {
-    to: '/error',
-    label: 'Error',
-    icon: mdiAlertCircle
-  },
-  {
-    label: 'Dropdown',
-    icon: mdiViewList,
-    menu: [
-      {
-        label: 'Item One'
-      },
-      {
-        label: 'Item Two'
-      }
-    ]
-  },
-  {
-    href: 'https://github.com/justboil/admin-one-vue-tailwind',
+    href: 'https://github.com/rgehrsitz/archon-electron',
     label: 'GitHub',
     icon: mdiGithub,
     target: '_blank'
   },
-  {
-    href: 'https://github.com/justboil/admin-one-react-tailwind',
-    label: 'React version',
-    icon: mdiReact,
-    target: '_blank'
-  }
+
+
 ]
