@@ -18,7 +18,7 @@ import {
 export default [
   {
     to: '/welcome',
-    icon: '<img src="../../public/archon_logo.svg" alt="Archon Logo">',
+    icon: mdiHumanGreeting,
     label: 'Welcome'
   },
   {
