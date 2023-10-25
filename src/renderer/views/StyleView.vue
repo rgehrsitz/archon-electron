@@ -21,7 +21,7 @@ document.documentElement.classList.forEach((token) => {
 
 })
 
-router.push('/dashboard')
+router.push('/welcome')
 
 const handleStyleChange = (slug) => {
   document.documentElement.classList.forEach((token) => {

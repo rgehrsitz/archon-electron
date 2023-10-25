@@ -2,12 +2,17 @@
 import { mdiCog } from '@mdi/js'
 import { useSlots, computed } from 'vue'
 import BaseIcon from '@/components/BaseIcon.vue'
-import BaseButton from '@/components/BaseButton.vue'
 import IconRounded from '@/components/IconRounded.vue'
 
 defineProps({
   icon: {
     type: String,
+    default: null,
+    required: false
+  },
+  pngIcon: {
+    type: String,
+    required: false,
     default: null
   },
   title: {

@@ -59,7 +59,7 @@ const menuClick = (event, item) => {
         @menu-click="menuClick" @aside-lg-close-click="isAsideLgActive = false" />
       <slot />
       <FooterBar>
-        Place Holder Info
+        <!-- Can put status data here -->
       </FooterBar>
     </div>
   </div>
