@@ -10,6 +10,12 @@ import { useDarkModeStore } from '@/stores/darkMode.js'
 
 const isDarkMode = computed(() => useDarkModeStore().isEnabled)
 
+const selectedNode = ref(null);
+
+const isSelected = computed(() => {
+    return selectedNode.value ? selectedNode.value.name : null;
+});
+
 // Sample data structure, replace this with your actual data
 const data = [
     {
@@ -29,12 +35,51 @@ const data = [
                         name: 'Grandchild 1',
                         type: 'file',
                         children: []
+                    },
+                    {
+                        name: 'Grandchild 2',
+                        type: 'folder',
+                        children: [
+                            {
+                                name: 'Great-Grandchild 1',
+                                type: 'file',
+                                children: []
+                            },
+                            {
+                                name: 'Great-Grandchild 2',
+                                type: 'folder',
+                                children: [
+                                    {
+                                        name: 'Great-Great-Grandchild 1',
+                                        type: 'file',
+                                        children: []
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: 'Child 3',
+                type: 'folder',
+                children: [
+                    {
+                        name: 'Grandchild 3',
+                        type: 'file',
+                        children: []
+                    },
+                    {
+                        name: 'Grandchild 4',
+                        type: 'folder',
+                        children: []
                     }
                 ]
             }
         ]
     }
 ];
+
 
 const columns = ref([data]);
 
@@ -47,11 +92,13 @@ const removeColumnsAfter = (index) => {
 };
 
 const handleLeftClick = (node, index) => {
+    selectedNode.value = node;
     removeColumnsAfter(index);
     if (node.children && node.children.length > 0) {
         addColumn(node.children);
     }
     // Trigger your custom event here to display additional information
+    console.log(node);
 };
 
 const handleRightClick = (event, node) => {
@@ -66,7 +113,8 @@ const handleRightClick = (event, node) => {
             <ul>
                 <li v-for="node in column" :key="node.name" :class="[
                     'cursor-pointer',
-                    isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'
+                    isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200',
+                    node.name === isSelected ? 'border border-blue-500 rounded' : 'border border-transparent rounded'
                 ]" @click="handleLeftClick(node, index)" @contextmenu="handleRightClick($event, node)">
                     {{ node.name }}
                 </li>
