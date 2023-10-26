@@ -1,7 +1,7 @@
 <script setup>
 import { containerMaxW } from '@/config.js'
 import BaseLevel from '@/components/BaseLevel.vue'
-import JustboilLogo from '@/components/JustboilLogo.vue'
+import LarsLogo from './LarsLogo.vue';
 
 const year = new Date().getFullYear()
 </script>
@@ -10,12 +10,12 @@ const year = new Date().getFullYear()
   <footer class="py-2 px-6" :class="containerMaxW">
     <BaseLevel>
       <div class="text-center md:text-left">
-        <b>&copy;{{ year }}, <a href="https://digwave.com" target="_blank">Digital Wave</a>.</b>
+        <p>&copy;{{ year }}, <a href="" target="_blank">LARS Team</a>.</p>
         <slot />
       </div>
       <div class="md:py-2">
 
-        <JustboilLogo class="w-auto h-8 md:h-6" />
+        <LarsLogo class="w-auto h-8 md:h-6" />
 
       </div>
     </BaseLevel>
