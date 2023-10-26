@@ -34,11 +34,11 @@ const routes = [
   },
   {
     meta: {
-      title: 'Hierarchy'
+      title: 'Equipment'
     },
-    path: '/hierarchy',
-    name: 'hierarchy',
-    component: () => import('@/views/HierarchyView.vue')
+    path: '/equipment',
+    name: 'equipment',
+    component: () => import('@/views/EquipmentView.vue')
   },
   {
     meta: {

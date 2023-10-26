@@ -27,8 +27,8 @@ export default [
     label: 'Dashboard'
   },
   {
-    to: '/hierarchy',
-    label: 'Hierarchy',
+    to: '/equipment',
+    label: 'Equipment',
     icon: mdiFileTreeOutline
   },
   {

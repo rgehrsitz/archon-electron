@@ -1,5 +1,5 @@
 <script setup>
-import { mdiMonitorCellphone, mdiTableBorder, mdiTableOff, mdiGithub } from '@mdi/js'
+import { mdiMonitorCellphone, mdiTableBorder, mdiTableOff, mdiGithub, mdiFileTreeOutline } from '@mdi/js'
 import SectionMain from '@/components/SectionMain.vue'
 import NotificationBar from '@/components/NotificationBar.vue'
 import TableSampleClients from '@/components/TableSampleClients.vue'
@@ -11,12 +11,13 @@ import CardBoxComponentEmpty from '@/components/CardBoxComponentEmpty.vue'
 import MillerColumn from '../components/MillerColumn.vue'
 
 
+
 </script>
 
 <template>
   <LayoutAuthenticated>
     <SectionMain>
-      <SectionTitleLineWithButton :icon="mdiTableBorder" title="Equipment" main>
+      <SectionTitleLineWithButton :icon="mdiFileTreeOutline" title="Equipment" main>
       </SectionTitleLineWithButton>
 
       <CardBox class="mb-6" has-table>
