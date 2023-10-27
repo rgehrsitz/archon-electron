@@ -1,7 +1,7 @@
 // MillerColumn.vue
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, onUpdated } from 'vue';
 import { useDarkModeStore } from '@/stores/darkMode.js'
 
 const columnRefs = ref([]);
@@ -113,6 +113,7 @@ const isShrunk = ref(false);
 const collapsedColumns = ref([]);
 
 const checkForOverflow = () => {
+    columnRefs.value = [];
     const container = document.getElementById('miller-container');
 
     let totalColumnWidth = 0;
@@ -148,14 +149,30 @@ onUnmounted(() => {
     window.removeEventListener('resize', checkForOverflow);
 });
 
+onUpdated(() => {
+    // Clear the existing refs
+    columnRefs.value = [];
+
+    // Query the DOM to get the column elements
+    // This assumes that each column has a class name "miller-column"
+    const columns = document.querySelectorAll('.miller-column');
+
+    // Populate columnRefs
+    columns.forEach(column => {
+        columnRefs.value.push(column);
+    });
+});
+
+
 </script>
 
 <template>
     <div id="miller-container" class="flex overflow-x-auto">
-        <div v-for="(column, index) in columns" :key="index" ref="el => { if (el) columnRefs.value.push(el) }" :class="[
-            'min-w-[100px] lg:min-w-[200px] border-r border-gray-300',
-            collapsedColumns.includes(index) ? 'shrink-column vertical-text' : ''
-        ]">
+        <div v-for="(column, index) in columns" :key="index" class="miller-column"
+            ref="el => { if (el) columnRefs.value.push(el) }" :class="[
+                'min-w-[100px] lg:min-w-[200px] border-r border-gray-300',
+                collapsedColumns.includes(index) ? 'shrink-column vertical-text' : ''
+            ]">
             <ul>
                 <li v-for="node in column" :key="node.name" :class="[
                     'cursor-pointer',
