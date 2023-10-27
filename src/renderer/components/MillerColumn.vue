@@ -123,11 +123,19 @@ const checkForOverflow = () => {
         }
     });
 
+    // Threshold for expanding columns
+    const expandThreshold = 50;
+
     if (totalColumnWidth > container.offsetWidth && columns.value.length > 0) {
         const leftMostUncollapsed = collapsedColumns.value.length;
         collapsedColumns.value.push(leftMostUncollapsed);
-    } else if (totalColumnWidth <= container.offsetWidth && collapsedColumns.value.length > 0) {
+        // Recalculate totalColumnWidth after collapsing
+        totalColumnWidth -= columnRefs.value[leftMostUncollapsed].offsetWidth;
+    } else if (totalColumnWidth <= container.offsetWidth - expandThreshold && collapsedColumns.value.length > 0) {
         collapsedColumns.value.pop();
+        // Recalculate totalColumnWidth after expanding
+        const lastCollapsed = collapsedColumns.value[collapsedColumns.value.length - 1];
+        totalColumnWidth += columnRefs.value[lastCollapsed].offsetWidth;
     }
 
     console.log('Total Column Width:', totalColumnWidth);
@@ -190,11 +198,14 @@ onUpdated(() => {
 <style scoped>
 /* Add your custom styles here */
 .shrink-column {
-    width: 20px;
+    min-width: 20px !important;
+    /* Override any existing min-width */
+    width: 20px !important;
+    /* Set the collapsed width */
 }
 
 .vertical-text {
     writing-mode: vertical-rl;
-    text-orientation: upright;
+    transform: rotate(180deg);
 }
 </style>
