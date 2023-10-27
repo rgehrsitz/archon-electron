@@ -145,13 +145,13 @@ onUnmounted(() => {
     <div id="miller-container" class="flex overflow-x-auto">
         <div v-for="(column, index) in columns" :key="index" ref="el => { if (el) columnRefs[index] = el }" :class="[
             'min-w-[100px] lg:min-w-[200px] border-r border-gray-300',
-            collapsedColumns.includes(index) ? 'shrink-column' : ''
+            collapsedColumns.includes(index) ? 'shrink-column vertical-text' : ''
         ]">
             <ul>
                 <li v-for="node in column" :key="node.name" :class="[
                     'cursor-pointer',
                     isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200',
-                    node.name === isSelected ? 'border border-blue-500 rounded vertical-text' : 'border border-transparent rounded'
+                    node.name === isSelected ? 'border border-blue-500 rounded' : 'border border-transparent rounded'
                 ]" @click="handleLeftClick(node, index)" @contextmenu="handleRightClick($event, node)">
                     {{ node.name }}
                 </li>
@@ -159,6 +159,7 @@ onUnmounted(() => {
         </div>
     </div>
 </template>
+
 
 
 <style scoped>
