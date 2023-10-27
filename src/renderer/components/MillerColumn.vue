@@ -122,8 +122,8 @@ const checkForOverflow = () => {
         }
     });
 
-    if (totalColumnWidth > container.offsetWidth && columns.length > 0) {
-        const leftMostUncollapsed = columns.length - 1;
+    if (totalColumnWidth > container.offsetWidth && columns.value.length > 0) {
+        const leftMostUncollapsed = collapsedColumns.value.length;
         collapsedColumns.value.push(leftMostUncollapsed);
     } else if (totalColumnWidth <= container.offsetWidth && collapsedColumns.value.length > 0) {
         collapsedColumns.value.pop();
@@ -144,7 +144,7 @@ onUnmounted(() => {
 <template>
     <div id="miller-container" class="flex overflow-x-auto">
         <div v-for="(column, index) in columns" :key="index" ref="el => { if (el) columnRefs[index] = el }" :class="[
-            'min-w-[200px] border-r border-gray-300',
+            'min-w-[100px] lg:min-w-[200px] border-r border-gray-300',
             collapsedColumns.includes(index) ? 'shrink-column' : ''
         ]">
             <ul>
@@ -160,11 +160,11 @@ onUnmounted(() => {
     </div>
 </template>
 
+
 <style scoped>
 /* Add your custom styles here */
 .shrink-column {
     width: 20px;
-    /* or any small width */
 }
 
 .vertical-text {
