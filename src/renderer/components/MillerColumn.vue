@@ -1,12 +1,13 @@
 // MillerColumn.vue
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useDarkModeStore } from '@/stores/darkMode.js'
 
 // if (useDarkModeStore().isEnabled) {
 //     return gradientBgDark
 // }
+
 
 const isDarkMode = computed(() => useDarkModeStore().isEnabled)
 
@@ -83,6 +84,8 @@ const data = [
 
 const columns = ref([data]);
 
+const columnRefs = ref([]);
+
 const addColumn = (children) => {
     columns.value.push(children);
 };
@@ -105,16 +108,50 @@ const handleRightClick = (event, node) => {
     event.preventDefault();
     // Implement your context menu logic here
 };
+
+const isShrunk = ref(false);
+const collapsedColumns = ref([]);
+
+const checkForOverflow = () => {
+    const container = document.getElementById('miller-container');
+
+    let totalColumnWidth = 0;
+    columnRefs.value.forEach((column, index) => {
+        if (!collapsedColumns.value.includes(index)) {
+            totalColumnWidth += column.offsetWidth;
+        }
+    });
+
+    if (totalColumnWidth > container.offsetWidth && columns.length > 0) {
+        const leftMostUncollapsed = columns.length - 1;
+        collapsedColumns.value.push(leftMostUncollapsed);
+    } else if (totalColumnWidth <= container.offsetWidth && collapsedColumns.value.length > 0) {
+        collapsedColumns.value.pop();
+    }
+};
+
+onMounted(() => {
+    window.addEventListener('resize', checkForOverflow);
+    checkForOverflow(); // Initial check
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', checkForOverflow);
+});
+
 </script>
 
 <template>
-    <div class="flex overflow-x-auto">
-        <div v-for="(column, index) in columns" :key="index" class="min-w-[200px] border-r border-gray-300">
+    <div id="miller-container" class="flex overflow-x-auto">
+        <div v-for="(column, index) in columns" :key="index" ref="el => { if (el) columnRefs[index] = el }" :class="[
+            'min-w-[200px] border-r border-gray-300',
+            collapsedColumns.includes(index) ? 'shrink-column' : ''
+        ]">
             <ul>
                 <li v-for="node in column" :key="node.name" :class="[
                     'cursor-pointer',
                     isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200',
-                    node.name === isSelected ? 'border border-blue-500 rounded' : 'border border-transparent rounded'
+                    node.name === isSelected ? 'border border-blue-500 rounded vertical-text' : 'border border-transparent rounded'
                 ]" @click="handleLeftClick(node, index)" @contextmenu="handleRightClick($event, node)">
                     {{ node.name }}
                 </li>
@@ -125,4 +162,13 @@ const handleRightClick = (event, node) => {
 
 <style scoped>
 /* Add your custom styles here */
+.shrink-column {
+    width: 20px;
+    /* or any small width */
+}
+
+.vertical-text {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+}
 </style>
