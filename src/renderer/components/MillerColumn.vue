@@ -4,6 +4,8 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useDarkModeStore } from '@/stores/darkMode.js'
 
+const columnRefs = ref([]);
+
 // if (useDarkModeStore().isEnabled) {
 //     return gradientBgDark
 // }
@@ -84,8 +86,6 @@ const data = [
 
 const columns = ref([data]);
 
-const columnRefs = ref([]);
-
 const addColumn = (children) => {
     columns.value.push(children);
 };
@@ -128,6 +128,15 @@ const checkForOverflow = () => {
     } else if (totalColumnWidth <= container.offsetWidth && collapsedColumns.value.length > 0) {
         collapsedColumns.value.pop();
     }
+
+    console.log('Total Column Width:', totalColumnWidth);
+    console.log('Container Width:', container.offsetWidth);
+    console.log('Collapsed Columns:', collapsedColumns.value);
+    console.log('Column Refs:', columnRefs.value);
+    columnRefs.value.forEach((column, index) => {
+        console.log(`Column ${index} Width:`, column.offsetWidth);
+    });
+
 };
 
 onMounted(() => {
@@ -143,7 +152,7 @@ onUnmounted(() => {
 
 <template>
     <div id="miller-container" class="flex overflow-x-auto">
-        <div v-for="(column, index) in columns" :key="index" ref="el => { if (el) columnRefs[index] = el }" :class="[
+        <div v-for="(column, index) in columns" :key="index" ref="el => { if (el) columnRefs.value.push(el) }" :class="[
             'min-w-[100px] lg:min-w-[200px] border-r border-gray-300',
             collapsedColumns.includes(index) ? 'shrink-column vertical-text' : ''
         ]">
