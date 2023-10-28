@@ -181,7 +181,7 @@ onUpdated(() => {
 <template>
     <div id="miller-container" class="flex overflow-x-auto">
         <div v-for="(column, index) in columns" :key="index" class="miller-column" :class="[
-            'min-w-[100px] lg:min-w-[200px] border-r border-gray-300',
+            'min-w-[100px] lg:min-w-[200px] border-r border-gray-300 shadow-md space-x-4',
             collapsedColumns.includes(index) ? 'shrink-column vertical-text' : ''
         ]">
             <ul>
