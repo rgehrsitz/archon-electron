@@ -192,7 +192,9 @@ onUpdated(() => {
                     collapsedColumns.includes(index) && node.name !== selectedNodes[index] ? 'hidden' : '',
                     collapsedColumns.includes(index) && node.name === selectedNodes[index] ? 'vertical-text' : ''
                 ]" @click="handleLeftClick(node, index)" @contextmenu="handleRightClick($event, node)">
-                    <svg class="w-6 h-6 mr-2" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 mr-2" viewBox="0 0 24 24" :class="[
+                        collapsedColumns.includes(index) ? 'hidden' : ''
+                    ]">
                         <path :d="mdiFileTreeOutline"></path>
                     </svg>
                     {{ node.name }}
@@ -201,6 +203,7 @@ onUpdated(() => {
         </div>
     </div>
 </template>
+
 
 
 
