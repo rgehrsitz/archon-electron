@@ -14,6 +14,8 @@ const columnRefs = ref([]);
 const isDarkMode = computed(() => useDarkModeStore().isEnabled)
 
 const selectedNode = ref(null);
+const selectedNodes = ref([]);
+
 
 const isSelected = computed(() => {
     return selectedNode.value ? selectedNode.value.name : null;
@@ -95,14 +97,16 @@ const removeColumnsAfter = (index) => {
 };
 
 const handleLeftClick = (node, index) => {
-    selectedNode.value = node;
+    selectedNodes.value[index] = node.name;
     removeColumnsAfter(index);
     if (node.children && node.children.length > 0) {
         addColumn(node.children);
     }
-    // Trigger your custom event here to display additional information
+    // Clear selected nodes for columns that are removed
+    selectedNodes.value = selectedNodes.value.slice(0, columns.value.length);
     console.log(node);
 };
+
 
 const handleRightClick = (event, node) => {
     event.preventDefault();
@@ -184,10 +188,13 @@ onUpdated(() => {
                 <li v-for="node in column" :key="node.name" :class="[
                     'cursor-pointer',
                     isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200',
-                    node.name === isSelected ? 'border border-blue-500 rounded' : 'border border-transparent rounded'
+                    node.name === selectedNodes[index] ? 'border border-blue-500 rounded' : 'border border-transparent rounded',
+                    collapsedColumns.includes(index) && node.name === selectedNodes[index] ? 'vertical-text' : ''
                 ]" @click="handleLeftClick(node, index)" @contextmenu="handleRightClick($event, node)">
                     {{ node.name }}
                 </li>
+
+
             </ul>
         </div>
     </div>
