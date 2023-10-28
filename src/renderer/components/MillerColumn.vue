@@ -182,13 +182,14 @@ onUpdated(() => {
 <template>
     <div id="miller-container" class="flex overflow-x-auto">
         <div v-for="(column, index) in columns" :key="index" class="miller-column custom-column" :class="[
-            collapsedColumns.includes(index) ? 'shrink-column vertical-text' : ''
+            collapsedColumns.includes(index) ? 'shrink-column' : ''
         ]">
             <ul>
                 <li v-for="node in column" :key="node.name" :class="[
                     'cursor-pointer flex items-center',
                     isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200',
                     node.name === selectedNodes[index] ? 'border border-blue-500 rounded' : 'border border-transparent rounded',
+                    collapsedColumns.includes(index) && node.name !== selectedNodes[index] ? 'hidden' : '',
                     collapsedColumns.includes(index) && node.name === selectedNodes[index] ? 'vertical-text' : ''
                 ]" @click="handleLeftClick(node, index)" @contextmenu="handleRightClick($event, node)">
                     <svg class="w-6 h-6 mr-2" viewBox="0 0 24 24">
@@ -196,12 +197,11 @@ onUpdated(() => {
                     </svg>
                     {{ node.name }}
                 </li>
-
-
             </ul>
         </div>
     </div>
 </template>
+
 
 
 
