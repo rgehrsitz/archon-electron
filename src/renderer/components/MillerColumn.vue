@@ -3,6 +3,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, onUpdated } from 'vue';
 import { useDarkModeStore } from '@/stores/darkMode.js'
+import { mdiFileTreeOutline } from '@mdi/js'
 
 const columnRefs = ref([]);
 
@@ -185,11 +186,14 @@ onUpdated(() => {
         ]">
             <ul>
                 <li v-for="node in column" :key="node.name" :class="[
-                    'cursor-pointer',
+                    'cursor-pointer flex items-center',
                     isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200',
                     node.name === selectedNodes[index] ? 'border border-blue-500 rounded' : 'border border-transparent rounded',
                     collapsedColumns.includes(index) && node.name === selectedNodes[index] ? 'vertical-text' : ''
                 ]" @click="handleLeftClick(node, index)" @contextmenu="handleRightClick($event, node)">
+                    <svg class="w-6 h-6 mr-2" viewBox="0 0 24 24">
+                        <path :d="mdiFileTreeOutline"></path>
+                    </svg>
                     {{ node.name }}
                 </li>
 
