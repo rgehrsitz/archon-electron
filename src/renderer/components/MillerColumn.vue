@@ -59,10 +59,35 @@ const data = [
                                         name: 'Great-Great-Grandchild 1',
                                         type: 'file',
                                         children: []
+                                    },
+                                    {
+                                        name: 'Great-Great-Grandchild 2',
+                                        type: 'file',
+                                        children: []
+                                    },
+                                    {
+                                        name: 'Great-Great-Grandchild 3',
+                                        type: 'file',
+                                        children: []
+                                    },
+                                    {
+                                        name: 'Great-Great-Grandchild 4',
+                                        type: 'file',
+                                        children: []
                                     }
                                 ]
                             }
                         ]
+                    },
+                    {
+                        name: 'Grandchild 3',
+                        type: 'file',
+                        children: []
+                    },
+                    {
+                        name: 'Grandchild 4',
+                        type: 'folder',
+                        children: []
                     }
                 ]
             },
@@ -85,6 +110,7 @@ const data = [
         ]
     }
 ];
+
 
 
 const columns = ref([data]);
@@ -180,7 +206,7 @@ onUpdated(() => {
 </script>
 
 <template>
-    <div id="miller-container" class="flex overflow-x-auto">
+    <div id="miller-container" class="flex overflow-x-auto fixed-height">
         <div v-for="(column, index) in columns" :key="index" class="miller-column custom-column" :class="[
             collapsedColumns.includes(index) ? 'shrink-column' : ''
         ]">
@@ -228,5 +254,11 @@ onUpdated(() => {
     border-right: 1px solid #ccc;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     margin-right: 4px !important;
+}
+
+.fixed-height {
+    max-height: 100px;
+    /* or whatever height you want */
+    overflow-y: auto;
 }
 </style>
