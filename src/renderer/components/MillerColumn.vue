@@ -4,6 +4,8 @@
 import { ref, computed, onMounted, onUnmounted, onUpdated } from 'vue';
 import { useDarkModeStore } from '@/stores/darkMode.js'
 import { mdiFileTreeOutline } from '@mdi/js'
+import MillerColumnItem from './MillerColumnItem.vue'; // Import the new component
+
 
 const columnRefs = ref([]);
 
@@ -206,27 +208,10 @@ onUpdated(() => {
 </script>
 
 <template>
-    <div id="miller-container" class="flex overflow-x-auto fixed-height">
-        <div v-for="(column, index) in columns" :key="index" class="miller-column custom-column" :class="[
-            collapsedColumns.includes(index) ? 'shrink-column' : ''
-        ]">
-            <ul>
-                <li v-for="node in column" :key="node.name" :class="[
-                    'cursor-pointer flex items-center',
-                    isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200',
-                    node.name === selectedNodes[index] ? 'border border-blue-500 rounded' : 'border border-transparent rounded',
-                    collapsedColumns.includes(index) && node.name !== selectedNodes[index] ? 'hidden' : '',
-                    collapsedColumns.includes(index) && node.name === selectedNodes[index] ? 'vertical-text' : ''
-                ]" @click="handleLeftClick(node, index)" @contextmenu="handleRightClick($event, node)">
-                    <svg class="w-6 h-6 mr-2" viewBox="0 0 24 24" :class="[
-                        collapsedColumns.includes(index) ? 'hidden' : ''
-                    ]">
-                        <path :d="mdiFileTreeOutline"></path>
-                    </svg>
-                    {{ node.name }}
-                </li>
-            </ul>
-        </div>
+    <div id="miller-container" class="flex overflow-x-auto">
+        <MillerColumnItem v-for="(column, index) in columns" :key="index" :columnData="column"
+            :isCollapsed="collapsedColumns.includes(index)" :isSelected="node => node === selectedNodes[index]"
+            :handleLeftClick="handleLeftClick" :handleRightClick="handleRightClick" :index="index" />
     </div>
 </template>
 
