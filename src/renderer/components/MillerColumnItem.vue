@@ -6,14 +6,16 @@
                 <svg v-if="!isCollapsed" class="w-6 h-6 mr-2" viewBox="0 0 24 24">
                     <path :d="iconPath"></path>
                 </svg>
-                {{ isCollapsed && node.name === selectedNode ? node.name : '' }}
+                {{ node.name }}
             </li>
         </ul>
     </div>
 </template>
 
+
+
 <script setup>
-import { computed, defineProps } from 'vue';
+import { computed, defineProps, defineEmits } from 'vue';
 import { mdiFileTreeOutline } from '@mdi/js';
 
 const props = defineProps({
@@ -25,6 +27,8 @@ const props = defineProps({
         default: mdiFileTreeOutline
     }
 });
+
+const emit = defineEmits(['node-clicked', 'node-right-clicked'])
 
 const itemClasses = (node) => ({
     'cursor-pointer flex items-center': true,

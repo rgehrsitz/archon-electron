@@ -1,7 +1,7 @@
 // MillerColumn.vue
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, onUpdated } from 'vue';
+import { ref, computed, onMounted, onUnmounted, onUpdated, defineProps, defineEmits } from 'vue';
 import { useDarkModeStore } from '@/stores/darkMode.js'
 import { mdiFileTreeOutline } from '@mdi/js'
 import MillerColumnItem from './MillerColumnItem.vue'; // Import the new component
@@ -18,6 +18,8 @@ const isDarkMode = computed(() => useDarkModeStore().isEnabled)
 
 const selectedNode = ref(null);
 const selectedNodes = ref([]);
+
+
 
 
 const isSelected = computed(() => {
@@ -122,19 +124,30 @@ const addColumn = (children) => {
 };
 
 const removeColumnsAfter = (index) => {
-    columns.value = columns.value.slice(0, index + 1);
+    if (index < columns.value.length - 1) {
+        columns.value.splice(index + 1);
+    }
 };
 
 const handleLeftClick = (node, index) => {
     selectedNodes.value[index] = node.name;
     removeColumnsAfter(index);
     if (node.children && node.children.length > 0) {
-        addColumn(node.children);
+        // Check if the next column exists, update it, or add a new one
+        if (columns.value.length > index + 1) {
+            columns.value[index + 1] = node.children;
+        } else {
+            columns.value.push(node.children);
+        }
+    } else {
+        // If there are no children, ensure we don't have extra columns
+        removeColumnsAfter(index);
     }
     // Clear selected nodes for columns that are removed
     selectedNodes.value = selectedNodes.value.slice(0, columns.value.length);
-    console.log(node);
 };
+
+
 
 
 const handleRightClick = (event, node) => {
