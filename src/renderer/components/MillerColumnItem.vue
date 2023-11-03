@@ -1,5 +1,5 @@
 <template>
-    <div class="miller-column-item custom-column" :class="{ 'shrink-column': isCollapsed }">
+    <div ref="columnRef" class="miller-column-item custom-column" :class="{ 'shrink-column': isCollapsed }">
         <ul>
             <li v-for="node in nodes" :key="node.name" :class="itemClasses(node)" @click="handleClick(node)"
                 @contextmenu="handleRightClick($event, node)">
@@ -15,7 +15,7 @@
 
 
 <script setup>
-import { computed, defineProps, defineEmits } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { mdiFileTreeOutline } from '@mdi/js';
 
 const props = defineProps({
@@ -28,7 +28,9 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(['node-clicked', 'node-right-clicked'])
+const columnRef = ref(null);
+//const emit = defineEmits(['node-clicked', 'node-right-clicked'])
+const emit = defineEmits(['column-mounted', 'column-unmounted', 'node-clicked', 'node-right-clicked']);
 
 const itemClasses = (node) => ({
     'cursor-pointer flex items-center': true,
@@ -50,6 +52,18 @@ const handleRightClick = (event, node) => {
     // Emit an event to the parent component
     emit('node-right-clicked', { event, node });
 };
+
+onMounted(() => {
+    if (columnRef.value) {
+        emit('column-mounted', columnRef.value);
+    }
+});
+
+onUnmounted(() => {
+    if (columnRef.value) {
+        emit('column-unmounted', columnRef.value);
+    }
+});
 
 const isDarkMode = computed(() => useDarkModeStore().isEnabled);
 </script>

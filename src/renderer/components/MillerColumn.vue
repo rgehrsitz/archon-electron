@@ -1,10 +1,11 @@
 // MillerColumn.vue
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, onUpdated, defineProps, defineEmits } from 'vue';
+import { computed, onMounted, onUnmounted, onUpdated } from 'vue';
 import { useDarkModeStore } from '@/stores/darkMode.js'
 import { mdiFileTreeOutline } from '@mdi/js'
 import MillerColumnItem from './MillerColumnItem.vue'; // Import the new component
+import { ref } from 'vue';
 
 
 const columnRefs = ref([]);
@@ -147,6 +148,18 @@ const handleLeftClick = (node, index) => {
     selectedNodes.value = selectedNodes.value.slice(0, columns.value.length);
 };
 
+const handleColumnMounted = (columnElement) => {
+    columnRefs.value.push(columnElement);
+    checkForOverflow();
+};
+
+const handleColumnUnmounted = (columnElement) => {
+    const index = columnRefs.value.findIndex((ref) => ref === columnElement);
+    if (index > -1) {
+        columnRefs.value.splice(index, 1);
+    }
+    checkForOverflow();
+};
 
 
 
@@ -170,7 +183,7 @@ const checkForOverflow = () => {
     });
 
     // Threshold for expanding columns
-    const expandThreshold = 50;
+    const expandThreshold = 150;
 
     if (totalColumnWidth > container.offsetWidth && columns.value.length > 0) {
         const leftMostUncollapsed = collapsedColumns.value.length;
@@ -208,13 +221,17 @@ onUpdated(() => {
     columnRefs.value = [];
 
     // Query the DOM to get the column elements
-    const columns = document.querySelectorAll('.miller-column');
+    const columnElements = document.querySelectorAll('.miller-column-item');
 
     // Populate columnRefs
-    columns.forEach(column => {
+    columnElements.forEach(column => {
         columnRefs.value.push(column);
     });
+
+    // Re-check for overflow after updating
+    checkForOverflow();
 });
+
 
 
 
@@ -224,7 +241,8 @@ onUpdated(() => {
     <div id="miller-container" class="flex overflow-x-auto fixed-height">
         <MillerColumnItem v-for="(column, index) in columns" :key="index" :nodes="column"
             :selectedNode="selectedNodes[index]" :isCollapsed="collapsedColumns.includes(index)"
-            @node-clicked="handleLeftClick" @node-right-clicked="handleRightClick" />
+            @node-clicked="handleLeftClick" @node-right-clicked="handleRightClick" @column-mounted="handleColumnMounted"
+            @column-unmounted="handleColumnUnmounted" />
     </div>
 </template>
 
