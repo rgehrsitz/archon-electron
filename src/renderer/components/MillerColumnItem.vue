@@ -1,44 +1,56 @@
-<script setup>
-import { ref, computed } from 'vue';
-import { mdiFileTreeOutline } from '@mdi/js'; // Import the placeholder icon
-import { useDarkModeStore } from '@/stores/darkMode.js'
-
-// Props for receiving data from the parent component
-const props = defineProps({
-    columnData: Array,
-    isCollapsed: Boolean,
-    isSelected: Function,
-    handleLeftClick: Function,
-    handleRightClick: Function,
-    index: Number,
-});
-
-const isDarkMode = computed(() => useDarkModeStore().isEnabled); // Assuming you have this store in your setup
-
-</script>
-
 <template>
-    <div class="miller-column-item" :class="[
-        isCollapsed ? 'shrink-column vertical-text' : ''
-    ]">
+    <div class="miller-column-item custom-column" :class="{ 'shrink-column': isCollapsed }">
         <ul>
-            <li v-for="node in columnData" :key="node.name" :class="[
-                'cursor-pointer flex items-center',
-                isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200',
-                isSelected(node.name) ? 'border border-blue-500 rounded' : 'border border-transparent rounded',
-                isCollapsed && isSelected(node.name) ? 'vertical-text' : ''
-            ]" @click="handleLeftClick(node, index)" @contextmenu="handleRightClick($event, node)">
+            <li v-for="node in nodes" :key="node.name" :class="itemClasses(node)" @click="handleClick(node)"
+                @contextmenu="handleRightClick($event, node)">
                 <svg v-if="!isCollapsed" class="w-6 h-6 mr-2" viewBox="0 0 24 24">
-                    <path :d="mdiFileTreeOutline"></path>
+                    <path :d="iconPath"></path>
                 </svg>
-                {{ node.name }}
+                {{ isCollapsed && node.name === selectedNode ? node.name : '' }}
             </li>
         </ul>
     </div>
 </template>
 
+<script setup>
+import { computed, defineProps } from 'vue';
+import { mdiFileTreeOutline } from '@mdi/js';
+
+const props = defineProps({
+    nodes: Array,
+    selectedNode: String,
+    isCollapsed: Boolean,
+    iconPath: {
+        type: String,
+        default: mdiFileTreeOutline
+    }
+});
+
+const itemClasses = (node) => ({
+    'cursor-pointer flex items-center': true,
+    'hover:bg-gray-700': isDarkMode,
+    'hover:bg-gray-200': !isDarkMode,
+    'border border-blue-500 rounded': node.name === props.selectedNode,
+    'border border-transparent rounded': node.name !== props.selectedNode,
+    'vertical-text': props.isCollapsed && node.name === props.selectedNode,
+    'hidden': props.isCollapsed && node.name !== props.selectedNode
+});
+
+const handleClick = (node) => {
+    // Emit an event to the parent component
+    emit('node-clicked', node);
+};
+
+const handleRightClick = (event, node) => {
+    event.preventDefault();
+    // Emit an event to the parent component
+    emit('node-right-clicked', { event, node });
+};
+
+const isDarkMode = computed(() => useDarkModeStore().isEnabled);
+</script>
+
 <style scoped>
-/* Add your custom styles here */
 .shrink-column {
     min-width: 20px !important;
     width: 20px !important;
@@ -47,5 +59,12 @@ const isDarkMode = computed(() => useDarkModeStore().isEnabled); // Assuming you
 .vertical-text {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
+}
+
+.custom-column {
+    min-width: 100px;
+    border-right: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin-right: 4px;
 }
 </style>

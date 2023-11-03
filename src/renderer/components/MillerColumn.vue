@@ -208,10 +208,10 @@ onUpdated(() => {
 </script>
 
 <template>
-    <div id="miller-container" class="flex overflow-x-auto">
-        <MillerColumnItem v-for="(column, index) in columns" :key="index" :columnData="column"
-            :isCollapsed="collapsedColumns.includes(index)" :isSelected="node => node === selectedNodes[index]"
-            :handleLeftClick="handleLeftClick" :handleRightClick="handleRightClick" :index="index" />
+    <div id="miller-container" class="flex overflow-x-auto fixed-height">
+        <MillerColumnItem v-for="(column, index) in columns" :key="index" :nodes="column"
+            :selectedNode="selectedNodes[index]" :isCollapsed="collapsedColumns.includes(index)"
+            @node-clicked="handleLeftClick" @node-right-clicked="handleRightClick" />
     </div>
 </template>
 
@@ -243,7 +243,6 @@ onUpdated(() => {
 
 .fixed-height {
     max-height: 100px;
-    /* or whatever height you want */
     overflow-y: auto;
 }
 </style>
