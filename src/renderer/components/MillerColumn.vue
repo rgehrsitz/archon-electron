@@ -277,7 +277,7 @@ onUpdated(() => {
 }
 
 .fixed-height {
-    max-height: 100px;
+    max-height: 80px;
     overflow-y: auto;
 }
 </style>

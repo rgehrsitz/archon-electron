@@ -1,5 +1,7 @@
 <template>
-    <div ref="columnRef" class="miller-column-item custom-column" :class="{ 'shrink-column': isCollapsed }">
+    <div ref="columnRef" class="miller-column-item custom-column custom-scrollbar" :class="{ 'shrink-column': isCollapsed }"
+        @mouseenter="enableScroll" @mouseleave="disableScroll">
+
         <ul>
             <li v-for="node in nodes" :key="node.name" :class="itemClasses(node)" @click="handleClick(node)"
                 @contextmenu="handleRightClick($event, node)">
@@ -28,6 +30,18 @@ const props = defineProps({
     },
     columnIndex: Number
 });
+
+const enableScroll = () => {
+    if (columnRef.value && !props.isCollapsed) {
+        columnRef.value.style.overflowY = 'overlay'; // or 'auto' if 'overlay' is not supported
+    }
+};
+
+const disableScroll = () => {
+    if (columnRef.value) {
+        columnRef.value.style.overflowY = 'hidden';
+    }
+};
 
 const columnRef = ref(null);
 //const emit = defineEmits(['node-clicked', 'node-right-clicked'])
@@ -86,5 +100,31 @@ const isDarkMode = computed(() => useDarkModeStore().isEnabled);
     border-right: 1px solid #ccc;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     margin-right: 4px;
+}
+
+.hover-scrollbar:hover {
+    overflow-y: auto;
+}
+
+.custom-scrollbar {
+    scrollbar-color: #888 #ffffff00;
+    /* thumb and track color */
+    scrollbar-width: thin;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #ffffff00;
+    /* fully transparent */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
+    border: 3px solid #ffffff00;
+    /* same as track color */
 }
 </style>
