@@ -25,7 +25,8 @@ const props = defineProps({
     iconPath: {
         type: String,
         default: mdiFileTreeOutline
-    }
+    },
+    columnIndex: Number
 });
 
 const columnRef = ref(null);
@@ -43,9 +44,10 @@ const itemClasses = (node) => ({
 });
 
 const handleClick = (node) => {
-    // Emit an event to the parent component
-    emit('node-clicked', node);
-};
+    // Emit an event to the parent component with the node and its index
+    console.log('Emitting node-clicked event with node and columnIndex', { node, columnIndex: props.columnIndex });
+    emit('node-clicked', node, props.columnIndex);
+};;
 
 const handleRightClick = (event, node) => {
     event.preventDefault();

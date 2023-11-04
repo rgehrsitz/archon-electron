@@ -20,9 +20,6 @@ const isDarkMode = computed(() => useDarkModeStore().isEnabled)
 const selectedNode = ref(null);
 const selectedNodes = ref([]);
 
-
-
-
 const isSelected = computed(() => {
     return selectedNode.value ? selectedNode.value.name : null;
 });
@@ -130,22 +127,29 @@ const removeColumnsAfter = (index) => {
     }
 };
 
-const handleLeftClick = (node, index) => {
-    selectedNodes.value[index] = node.name;
-    removeColumnsAfter(index);
+const handleLeftClick = (node, columnIndex) => {
+
+    console.log('Node Name:', node.name)
+    console.log('Index value:', columnIndex)
+    selectedNodes.value[columnIndex] = node.name;
+
+
+
+    removeColumnsAfter(columnIndex);
     if (node.children && node.children.length > 0) {
         // Check if the next column exists, update it, or add a new one
-        if (columns.value.length > index + 1) {
-            columns.value[index + 1] = node.children;
+        if (columns.value.length > columnIndex + 1) {
+            columns.value[columnIndex + 1] = node.children;
         } else {
             columns.value.push(node.children);
         }
     } else {
         // If there are no children, ensure we don't have extra columns
-        removeColumnsAfter(index);
+        removeColumnsAfter(columnIndex);
     }
     // Clear selected nodes for columns that are removed
     selectedNodes.value = selectedNodes.value.slice(0, columns.value.length);
+    console.log('Selected Nodes:', selectedNodes.value)
 };
 
 const handleColumnMounted = (columnElement) => {
@@ -240,7 +244,7 @@ onUpdated(() => {
 <template>
     <div id="miller-container" class="flex overflow-x-auto fixed-height">
         <MillerColumnItem v-for="(column, index) in columns" :key="index" :nodes="column"
-            :selectedNode="selectedNodes[index]" :isCollapsed="collapsedColumns.includes(index)"
+            :selectedNode="selectedNodes[index]" :isCollapsed="collapsedColumns.includes(index)" :columnIndex="index"
             @node-clicked="handleLeftClick" @node-right-clicked="handleRightClick" @column-mounted="handleColumnMounted"
             @column-unmounted="handleColumnUnmounted" />
     </div>
