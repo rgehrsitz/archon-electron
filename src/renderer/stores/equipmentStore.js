@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { Equipment } from '../models/equipment';
 
 export const useEquipmentStore = defineStore({
     id: 'equipment',

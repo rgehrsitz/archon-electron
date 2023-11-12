@@ -7,49 +7,24 @@ import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.
 import CardBoxComponentEmpty from '@/components/CardBoxComponentEmpty.vue'
 import { Finder } from "@jledentu/vue-finder";
 import "@jledentu/vue-finder/dist/vue-finder.css";
+import { computed } from 'vue'
+import { useEquipmentStore } from '../stores/equipmentStore'
 
-const sampleData = {
-  id: "lab",
-  label: "My Lab",
-  children: [
-    {
-      id: "rack1",
-      label: "Rack 1",
-      children: [
-        {
-          id: "server1",
-          label: "Server 1",
-          children: [
-            { id: "networkCard1", label: "Network Card 1" },
-            { id: "networkCard2", label: "Network Card 2" },
-          ],
-        },
-        {
-          id: "server2",
-          label: "Server 2",
-          children: [
-            { id: "networkCard3", label: "Network Card 3" },
-            { id: "networkCard4", label: "Network Card 4" },
-          ],
-        },
-      ],
-    },
-    {
-      id: "rack2",
-      label: "Rack 2",
-      children: [
-        {
-          id: "server3",
-          label: "Server 3",
-          children: [
-            { id: "networkCard5", label: "Network Card 5" },
-            { id: "networkCard6", label: "Network Card 6" },
-          ],
-        },
-      ],
-    },
-  ],
-};
+const equipmentStore = useEquipmentStore();
+
+// Convert the equipment data to a format that vue-finder understands
+const equipmentTree = computed(() => {
+  const convertEquipmentToTree = (equipment) => {
+    return {
+      id: equipment.uuid,
+      label: equipment.name,
+      children: equipment.children.map(convertEquipmentToTree),
+    };
+  };
+
+  console.log(JSON.stringify(equipmentStore.rootEquipment));
+  return equipmentStore.rootEquipment ? convertEquipmentToTree(equipmentStore.rootEquipment) : {};
+});
 
 
 // Event handlers
@@ -71,7 +46,7 @@ const handleExpand = ({ expanded, sourceEvent, expandedItems }) => {
       </SectionTitleLineWithButton>
 
       <CardBox class="mb-6" has-table>
-        <Finder :tree="sampleData" :selectable="true" />
+        <Finder :tree="equipmentTree" :selectable="true" />
       </CardBox>
 
       <CardBox>
