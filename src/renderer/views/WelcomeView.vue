@@ -12,11 +12,6 @@ import LayoutAuthenticated from '@/layouts/LayoutAuthenticated.vue'
 import SectionTitleLineWithoutButton from '@/components/SectionTitleLineWithoutButton.vue'
 import BaseIcon from '@/components/BaseIcon.vue'
 
-// const chartData = ref(null)
-
-// const fillChartData = () => {
-//   chartData.value = chartConfig.sampleChartData()
-// }
 
 onMounted(() => {
   //fillChartData()
@@ -24,9 +19,17 @@ onMounted(() => {
 
 const mainStore = useMainStore()
 
-function handleClick () {
-  //handle the click
-}
+const selectedFilePath = ref(null);
+
+const openFileDialog = async () => {
+  // Use the exposed 'openFileDialog' method from the preload script
+  const filePaths = await window.electron.openFileDialog();
+
+  if (filePaths.length > 0) {
+    // Handle the file path, for example, display it or read the file
+    selectedFilePath.value = filePaths[0];
+  }
+};
 </script>
 
 <template>
@@ -43,7 +46,7 @@ function handleClick () {
           New Project
         </button>
         <br />
-        <button @click="handleClick" class="text-blue-500">
+        <button @click="openFileDialog" class="text-blue-500">
           <BaseIcon :path="mdiFolderOpenOutline" :size="20" />
           Open Project
         </button>

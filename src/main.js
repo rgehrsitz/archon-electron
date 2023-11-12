@@ -1,5 +1,7 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
+const { ipcMain, dialog } = require('electron');
+
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -13,6 +15,8 @@ const createWindow = () => {
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      enableRemoteModule: false,
     },
   });
 
@@ -51,3 +55,19 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+// Setup the IPC listener for the 'open-file-dialog' channel
+ipcMain.handle('open-file-dialog', async (event) => {
+  // Use Electron dialog to open the file dialog
+  const { canceled, filePaths } = await dialog.showOpenDialog({
+    properties: ['openFile'],
+    filters: [
+      { name: 'JSON Files', extensions: ['json'] }]
+  });
+
+  if (canceled) {
+    return []; // Return an empty array if the dialog was canceled
+  } else {
+    return filePaths; // Return the selected file paths
+  }
+});
