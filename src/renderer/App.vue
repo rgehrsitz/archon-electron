@@ -27,5 +27,7 @@ const currentComponent = computed(() => routeComponents[route.path]);
 </script>
 
 <template>
-  <component :is="currentComponent" />
+  <KeepAlive>
+    <component :is="currentComponent" />
+  </KeepAlive>
 </template>
