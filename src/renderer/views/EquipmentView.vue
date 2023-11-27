@@ -5,12 +5,15 @@ import CardBox from '@/components/CardBox.vue'
 import LayoutAuthenticated from '@/layouts/LayoutAuthenticated.vue'
 import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.vue'
 import CardBoxComponentEmpty from '@/components/CardBoxComponentEmpty.vue'
-import { Finder } from "@jledentu/vue-finder";
-import "@jledentu/vue-finder/dist/vue-finder.css";
 import { computed } from 'vue'
 import { useEquipmentStore } from '../stores/equipmentStore'
+import { ref } from 'vue'
+import ColumnVue from '@/components/ColumnVue.vue'
+
 
 const equipmentStore = useEquipmentStore();
+const selectedNode = ref(null); // Reactive property for selected node
+const finderRef = ref(null); // Ref for the Finder component
 
 // Convert the equipment data to a format that vue-finder understands
 const equipmentTree = computed(() => {
@@ -22,7 +25,7 @@ const equipmentTree = computed(() => {
     };
   };
 
-  console.log(JSON.stringify(equipmentStore.rootEquipment));
+  //console.log(JSON.stringify(equipmentStore.rootEquipment));
   return equipmentStore.rootEquipment ? convertEquipmentToTree(equipmentStore.rootEquipment) : {};
 });
 
@@ -30,6 +33,17 @@ const equipmentTree = computed(() => {
 // Event handlers
 const handleSelect = ({ selected, selectedItems }) => {
   // Handle selection logic here
+  selectedNode.value = selectedItems[0]; // Update the selected node
+  //console.log(selectedItems[0]);
+};
+
+const handleClick = (event) => {
+  // Access the Finder component's internal state or methods
+  // This part depends on the implementation details of the Finder component
+  // For example:
+  const clickedNode = finderRef.value.getNodeByEvent(event);
+  selectedNode.value = clickedNode;
+
 };
 
 const handleExpand = ({ expanded, sourceEvent, expandedItems }) => {
@@ -42,15 +56,20 @@ const handleExpand = ({ expanded, sourceEvent, expandedItems }) => {
 <template>
   <LayoutAuthenticated>
     <SectionMain>
-      <SectionTitleLineWithButton :icon="mdiFileTreeOutline" title="Equipment" main>
-      </SectionTitleLineWithButton>
+      <SectionTitleLineWithButton :icon="mdiFileTreeOutline" title="Equipment" main />
 
       <CardBox class="mb-6" has-table>
-        <Finder :tree="equipmentTree" :selectable="true" />
+        <column-vue :equipments="equipmentStore.rootEquipment" @select="handleSelection"></column-vue>
       </CardBox>
 
       <CardBox>
-        <CardBoxComponentEmpty />
+        <div v-if="selectedNode">
+          <h3>Selected Node Details</h3>
+          <p>ID: {{ selectedNode.id }}</p>
+          <p>Name: {{ selectedNode.label }}</p>
+          <!-- Add more details as needed -->
+        </div>
+        <CardBoxComponentEmpty v-else />
       </CardBox>
     </SectionMain>
   </LayoutAuthenticated>

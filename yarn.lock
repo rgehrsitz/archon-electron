@@ -385,10 +385,9 @@
     wrap-ansi "^8.1.0"
     wrap-ansi-cjs "npm:wrap-ansi@^7.0.0"
 
-"@jledentu/vue-finder@^4.1.1":
+"@jledentu/vue-finder@git+https://github.com/rgehrsitz/vue-finder.git#master":
   version "4.1.1"
-  resolved "https://registry.npmjs.org/@jledentu/vue-finder/-/vue-finder-4.1.1.tgz"
-  integrity sha512-2XzyT3VNwaVhvD+e7z430CMFZ2W9pwfaIYxNOR9lE35AnbMGT3OVTFI0cs8+xVrBk1b0vmGLdPAISpb50MXETw==
+  resolved "git+ssh://git@github.com/rgehrsitz/vue-finder.git#0c4fca4972006547fce5ff93ca5377076661fc88"
   dependencies:
     lodash-es "^4.17.20"
 
@@ -442,6 +441,11 @@
   integrity sha512-1DpKU0Z5ThltBwjNySMC14g0CkbyhCaz9FkhxqNsZI6uAPJXFS8cMXlBKo26FJ8ZuW6S9GCMcR9IO5k2X5/9Fg==
   dependencies:
     cross-spawn "^7.0.1"
+
+"@mdi/font@^7.3.67":
+  version "7.3.67"
+  resolved "https://registry.npmjs.org/@mdi/font/-/font-7.3.67.tgz"
+  integrity sha512-SWxvzRbUQRfewlIV+OF4/YF4DkeTjMWoT8Hh9yeU/5UBVdJZj9Uf4a9+cXjknSIhIaMxZ/4N1O/s7ojApOOGjg==
 
 "@mdi/js@^7.0.96":
   version "7.3.67"
@@ -4424,6 +4428,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
+
+uuid@^9.0.1:
+  version "9.0.1"
+  resolved "https://registry.npmjs.org/uuid/-/uuid-9.0.1.tgz"
+  integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
 
 uuid@8.3.2:
   version "8.3.2"
